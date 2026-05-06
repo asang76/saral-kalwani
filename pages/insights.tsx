@@ -1,0 +1,15 @@
+import DashboardLayout from '@/components/layout/DashboardLayout';
+
+export default function InsightsPage() {
+  return (
+    <DashboardLayout title="Insights">
+      <div className="max-w-[920px] mx-auto flex items-center justify-center h-96 bg-white rounded-2xl border border-brand-border">
+        <div className="text-center space-y-2">
+          <span className="text-4xl">📊</span>
+          <p className="font-sora text-base font-semibold text-gray-700">Insights coming soon</p>
+          <p className="text-sm text-gray-400">Analytics and reporting will appear here.</p>
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+}
