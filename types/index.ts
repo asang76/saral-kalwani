@@ -10,10 +10,9 @@ export interface NavItem {
 // ─── Gamification ─────────────────────────────────────────────────────────────
 export interface GamificationFeature {
   id: number;
-  icon: string;
+  icon: any;
   title: string;
   description: string;
-  outerBg: string;
   innerBg: string;
   active: boolean;
 }

@@ -3,13 +3,13 @@ import { cn } from '@/lib/utils';
 
 interface BadgeProps {
   children: ReactNode;
-  variant?: 'success' | 'purple' | 'warning' | 'error' | 'default';
+  variant?: 'success' | 'pink' | 'warning' | 'error' | 'default';
   className?: string;
 }
 
 const variantClasses: Record<string, string> = {
   success: 'bg-emerald-50 text-emerald-600 border-emerald-100',
-  purple: 'bg-brand-purple-soft text-brand-purple border-brand-border',
+  pink: 'bg-brand-pink-soft text-brand-pink border-brand-border',
   warning: 'bg-amber-50 text-amber-600 border-amber-100',
   error: 'bg-red-50 text-red-500 border-red-100',
   default: 'bg-gray-100 text-gray-600 border-gray-200',
