@@ -53,10 +53,10 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-brand-border">
+        <div className="flex items-center justify-between px-6 pt-6">
           <h2
             id="modal-title"
-            className="font-sora text-base font-semibold text-gray-900 tracking-tight"
+            className="font-sora text-base font-semibold text-xl text-gray-900 tracking-tight"
           >
             {title}
           </h2>
