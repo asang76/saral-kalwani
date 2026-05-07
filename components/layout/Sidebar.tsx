@@ -38,8 +38,8 @@ export default function Sidebar() {
                   'flex items-center gap-2.5 px-3 py-2.5 rounded-xl',
                   'text-sm transition-all duration-150 cursor-pointer select-none',
                   active
-                    ? 'bg-brand-purple-soft text-brand-purple font-semibold'
-                    : 'text-gray-500 font-normal hover:bg-brand-purple-bg hover:text-brand-purple'
+                    ? 'bg-brand-pink-soft text-brand-pink font-semibold'
+                    : 'text-gray-500 font-normal hover:bg-brand-pink-bg hover:text-brand-pink'
                 )}
               >
                 <Icon
@@ -60,9 +60,9 @@ export default function Sidebar() {
             className={cn(
               'flex items-center gap-2.5 px-3 py-2.5 rounded-xl',
               'text-sm text-gray-500 cursor-pointer select-none',
-              'hover:bg-brand-purple-bg hover:text-brand-purple transition-all duration-150',
+              'hover:bg-brand-pink-bg hover:text-brand-pink transition-all duration-150',
               router.pathname === '/settings' &&
-                'bg-brand-purple-soft text-brand-purple font-semibold'
+                'bg-brand-pink-soft text-brand-pink font-semibold'
             )}
           >
             <Settings size={17} strokeWidth={1.8} />

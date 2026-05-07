@@ -22,7 +22,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             'w-full px-3.5 py-2.5 rounded-xl text-sm text-gray-900',
             'border border-brand-border bg-white',
             'placeholder:text-gray-400',
-            'focus:outline-none focus:ring-2 focus:ring-brand-purple/30 focus:border-brand-purple',
+            'focus:outline-none focus:ring-2 focus:ring-brand-pink/30 focus:border-brand-pink',
             'transition-all duration-150',
             error && 'border-red-400 focus:ring-red-200',
             className

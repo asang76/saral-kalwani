@@ -54,7 +54,7 @@ export default function HomePage() {
         {/* Gamification CTA card */}
         <div className="bg-white rounded-2xl border border-brand-border p-6 flex items-center justify-between gap-4">
           <div className="flex items-start gap-4">
-            <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-purple-100 to-pink-100 shrink-0">
+            <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-pink-100 to-pink-100 shrink-0">
               <span className="text-xl">🎮</span>
             </div>
             <div>

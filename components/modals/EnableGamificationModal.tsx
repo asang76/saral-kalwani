@@ -24,7 +24,7 @@ export default function EnableGamificationModal({ isOpen }: EnableGamificationMo
     >
       <div className="space-y-5">
         {/* Icon */}
-        <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 mx-auto">
+        <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-100 to-pink-100 mx-auto">
           <span className="text-2xl">🎮</span>
         </div>
 

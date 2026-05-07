@@ -20,11 +20,11 @@ export default function Topbar({ title }: TopbarProps) {
         {/* Notification bell */}
         <button
           onClick={() => dispatch(clearNotifications())}
-          className="relative flex items-center justify-center w-9 h-9 rounded-full bg-brand-purple-bg hover:bg-brand-purple-soft transition-colors"
+          className="relative flex items-center justify-center w-9 h-9 rounded-full bg-brand-pink-bg hover:bg-brand-pink-soft transition-colors"
           aria-label={`${notifications} notifications`}
           title="Clear notifications"
         >
-          <Bell size={17} className="text-brand-purple" strokeWidth={1.8} />
+          <Bell size={17} className="text-brand-pink" strokeWidth={1.8} />
           {notifications > 0 && (
             <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-[17px] h-[17px] rounded-full bg-red-500 text-white text-[10px] font-bold border-2 border-white">
               {notifications > 9 ? '9+' : notifications}

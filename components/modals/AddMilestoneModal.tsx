@@ -65,7 +65,7 @@ export default function AddMilestoneModal({ isOpen }: AddMilestoneModalProps) {
             <select
               value={form.unit}
               onChange={(e) => setForm({ ...form, unit: e.target.value })}
-              className="px-3.5 py-2.5 rounded-xl text-sm border border-brand-border bg-white focus:outline-none focus:ring-2 focus:ring-brand-purple/30 focus:border-brand-purple transition-all"
+              className="px-3.5 py-2.5 rounded-xl text-sm border border-brand-border bg-white focus:outline-none focus:ring-2 focus:ring-brand-pink/30 focus:border-brand-pink transition-all"
             >
               <option value="sales">Sales</option>
               <option value="posts">Posts</option>

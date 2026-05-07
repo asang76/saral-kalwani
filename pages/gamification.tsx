@@ -2,7 +2,6 @@ import Image from "next/image";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
-import EnableGamificationModal from "@/components/modals/EnableGamificationModal";
 import AddMilestoneModal from "@/components/modals/AddMilestoneModal";
 import CreateRewardModal from "@/components/modals/CreateRewardModal";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
