@@ -7,10 +7,7 @@ interface ToggleProps {
   onChange: (value: boolean) => void;
 }
 
-/**
- * Accessible toggle switch with optional hint text.
- * Pink when on, gray when off.
- */
+
 export default function Toggle({ label, hint, checked, onChange }: ToggleProps) {
   return (
     <div className="flex items-start justify-between gap-4 py-3.5 border-t border-b border-dashed border-gray-200">

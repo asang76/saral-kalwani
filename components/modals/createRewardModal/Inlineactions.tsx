@@ -3,10 +3,7 @@ interface InlineActionsProps {
   onCancel: () => void;
 }
 
-/**
- * Reusable Save + Cancel button pair used inside dropdown sub-inputs.
- * Cancel is white, Save is pink.
- */
+
 export default function InlineActions({ onSave, onCancel }: InlineActionsProps) {
   return (
     <div className="flex gap-2 mt-2">

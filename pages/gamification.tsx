@@ -2,7 +2,6 @@ import Image from "next/image";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
-import AddMilestoneModal from "@/components/modals/AddMilestoneModal";
 import CreateRewardModal from "@/components/modals/CreateRewardModal";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { toggleGamification } from "@/store/slices/gamificationSlice";
@@ -30,7 +29,6 @@ export default function GamificationPage() {
     if (title === "Set Milestones") {
       dispatch(openModal("add-milestone"));
     } else {
-      // "Reward Your Ambassadors" and "Customise Incentives" both open CreateRewardModal
       dispatch(openModal("create-reward"));
     }
   };
@@ -40,8 +38,6 @@ export default function GamificationPage() {
       <div className="max-w-[920px] mx-auto space-y-5">
         {/* ── Hero card ──────────────────────────────────────────── */}
         <div className="relative bg-white rounded-2xl border border-brand-border overflow-hidden">
-          {/* Dot-grid background */}
-
           <Image
             src={bgGamification}
             alt="Gamification"
@@ -142,10 +138,6 @@ export default function GamificationPage() {
           ))}
         </div>
       </div>
-
-      {/* ── Modals ─────────────────────────────────────────────── */}
-
-      <AddMilestoneModal isOpen={modalOpen === "add-milestone"} />
       <CreateRewardModal isOpen={modalOpen === "enable-gamification"} />
     </DashboardLayout>
   );

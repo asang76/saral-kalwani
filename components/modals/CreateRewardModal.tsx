@@ -1,16 +1,21 @@
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import Modal from '@/components/ui/Modal';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { closeModal, toggleDropdown, closeDropdown, openDropdown } from '@/store/slices/uiSlice';
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import Modal from "@/components/ui/Modal";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import {
+  closeModal,
+  toggleDropdown,
+  closeDropdown,
+  openDropdown,
+} from "@/store/slices/uiSlice";
 
-// ── Sub-components ────────────────────────────────────────────────────────────
-import SmartDropdown from './createRewardModal/SmartDropdown';
-import TierSelectPanel from './createRewardModal/TireSelectpanel';
-import Toggle from './createRewardModal/Toggle';
-import EndDatePicker from './createRewardModal/EndDatePicker';
 
-// ── Types + constants ─────────────────────────────────────────────────────────
+import SmartDropdown from "./createRewardModal/SmartDropdown";
+import TierSelectPanel from "./createRewardModal/TireSelectpanel";
+import Toggle from "./createRewardModal/Toggle";
+import EndDatePicker from "./createRewardModal/EndDatePicker";
+
+
 import {
   EMPTY_FORM,
   REWARD_EVENT_OPTIONS,
@@ -20,9 +25,12 @@ import {
   type FormErrors,
   type DropdownOption,
   type Duration,
-} from './createRewardModal/types';
+} from "./createRewardModal/types";
 
-import { getEventDisplayValue, getRewardDisplayValue } from './createRewardModal/utils';
+import {
+  getEventDisplayValue,
+  getRewardDisplayValue,
+} from "./createRewardModal/utils";
 
 interface CreateRewardModalProps {
   isOpen: boolean;
@@ -31,18 +39,18 @@ interface CreateRewardModalProps {
 export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
   const dispatch = useAppDispatch();
 
-  // ── Redux state ──────────────────────────────────────────────────────────────
+  
   const activeDropdown = useAppSelector((s) => s.ui.activeDropdown);
 
-  // ── Local state ──────────────────────────────────────────────────────────────
-  const [view, setView] = useState<View>('main');
+
+  const [view, setView] = useState<View>("main");
   const [form, setForm] = useState<CreateRewardForm>(EMPTY_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
   const [rewardRowHovered, setRewardRowHovered] = useState(false);
-  const [draftTier, setDraftTier] = useState('');
+  const [draftTier, setDraftTier] = useState("");
 
-  // ── Helpers ──────────────────────────────────────────────────────────────────
-  const patch = (p: Partial<CreateRewardForm>) => setForm((f) => ({ ...f, ...p }));
+  const patch = (p: Partial<CreateRewardForm>) =>
+    setForm((f) => ({ ...f, ...p }));
 
   const clearErr = (keys: (keyof FormErrors)[]) =>
     setErrors((e) => {
@@ -51,27 +59,30 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
       return next;
     });
 
-  // ── Derived ──────────────────────────────────────────────────────────────────
   const eventDisplayValue = getEventDisplayValue(form);
   const rewardDisplayValue = getRewardDisplayValue(form);
-  const selectedRewardOpt = REWARD_WITH_OPTIONS.find((o) => o.label === form.rewardWith);
+  const selectedRewardOpt = REWARD_WITH_OPTIONS.find(
+    (o) => o.label === form.rewardWith,
+  );
 
-  // ── Submit button disabled logic ─────────────────────────────────────────────
   const evtOpt = REWARD_EVENT_OPTIONS.find((o) => o.label === form.rewardEvent);
   const isSubmitDisabled = (() => {
-    // Must have a reward event selected
     if (!form.rewardEvent) return true;
-    // "Cross $X in sales" needs an amount
+
     if (evtOpt?.needsAmount && !form.rewardEventAmount) return true;
-    // "Posts X times every Y period" needs count + duration
-    if (evtOpt?.needsPostsInput && (!form.rewardEventCount || !form.rewardEventDuration)) return true;
-    // Must have a reward type selected
+
+    if (
+      evtOpt?.needsPostsInput &&
+      (!form.rewardEventCount || !form.rewardEventDuration)
+    )
+      return true;
+
     if (!form.rewardWith) return true;
-    // "Flat $X bonus" needs an amount
+
     if (selectedRewardOpt?.needsAmount && !form.rewardWithAmount) return true;
-    // "Upgrade Commission Tier" needs a tier selected
+
     if (selectedRewardOpt?.needsTier && !form.selectedTier) return true;
-    // If time bound is on, must have a valid end date
+
     if (form.timeBound && !form.endDate) return true;
     return false;
   })();
@@ -79,46 +90,67 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
   // ── Reward event handlers ────────────────────────────────────────────────────
   const handleSelectEvent = (opt: DropdownOption) => {
     if (!opt.label) {
-      patch({ rewardEvent: '', rewardEventCount: '', rewardEventDuration: '' });
-      dispatch(closeDropdown()); return;
+      patch({ rewardEvent: "", rewardEventCount: "", rewardEventDuration: "" });
+      dispatch(closeDropdown());
+      return;
     }
-    const tierDisabled = ['Posts X times every Y period', 'Is Onboarded'].includes(opt.label);
-    const tierWasSelected = form.rewardWith === 'Upgrade Commission Tier';
+    const tierDisabled = [
+      "Posts X times every Y period",
+      "Is Onboarded",
+    ].includes(opt.label);
+    const tierWasSelected = form.rewardWith === "Upgrade Commission Tier";
     patch({
       rewardEvent: opt.label,
-      rewardEventAmount: form.rewardEvent === opt.label ? form.rewardEventAmount : '',
-      rewardEventCount: form.rewardEvent === opt.label ? form.rewardEventCount : '',
-      rewardEventDuration: form.rewardEvent === opt.label ? form.rewardEventDuration : '',
-      rewardWith: tierDisabled && tierWasSelected ? '' : form.rewardWith,
-      selectedTier: tierDisabled && tierWasSelected ? '' : form.selectedTier,
+      rewardEventAmount:
+        form.rewardEvent === opt.label ? form.rewardEventAmount : "",
+      rewardEventCount:
+        form.rewardEvent === opt.label ? form.rewardEventCount : "",
+      rewardEventDuration:
+        form.rewardEvent === opt.label ? form.rewardEventDuration : "",
+      rewardWith: tierDisabled && tierWasSelected ? "" : form.rewardWith,
+      selectedTier: tierDisabled && tierWasSelected ? "" : form.selectedTier,
     });
-    clearErr(['rewardEvent', 'rewardEventAmount', 'rewardEventCount']);
-    if (!opt.needsAmount && !opt.needsPostsInput) dispatch(openDropdown('reward'));
+    clearErr(["rewardEvent", "rewardEventAmount", "rewardEventCount"]);
+    if (!opt.needsAmount && !opt.needsPostsInput)
+      dispatch(openDropdown("reward"));
   };
 
   const handleSaveEventAmount = () => {
     if (!form.rewardEventAmount || Number(form.rewardEventAmount) <= 0) {
-      setErrors((e) => ({ ...e, rewardEventAmount: 'Enter the sales target amount to continue' })); return;
+      setErrors((e) => ({
+        ...e,
+        rewardEventAmount: "Enter the sales target amount to continue",
+      }));
+      return;
     }
-    clearErr(['rewardEventAmount']); dispatch(openDropdown('reward'));
+    clearErr(["rewardEventAmount"]);
+    dispatch(openDropdown("reward"));
   };
 
   const handleCancelEventAmount = () => {
-    patch({ rewardEvent: '', rewardEventAmount: ''}); dispatch(closeDropdown());
+    patch({ rewardEvent: "", rewardEventAmount: "" });
+    dispatch(closeDropdown());
   };
 
   const handleSavePostsInput = () => {
     if (!form.rewardEventCount || Number(form.rewardEventCount) <= 0) {
-      setErrors((e) => ({ ...e, rewardEventCount: 'Enter the posts count to continue' })); return;
+      setErrors((e) => ({
+        ...e,
+        rewardEventCount: "Enter the posts count to continue",
+      }));
+      return;
     }
     if (!form.rewardEventDuration) {
-      setErrors((e) => ({ ...e, rewardEventDuration: 'Select a duration' })); return;
+      setErrors((e) => ({ ...e, rewardEventDuration: "Select a duration" }));
+      return;
     }
-    clearErr(['rewardEventCount', 'rewardEventDuration']); dispatch(openDropdown('reward'));
+    clearErr(["rewardEventCount", "rewardEventDuration"]);
+    dispatch(openDropdown("reward"));
   };
 
   const handleCancelPostsInput = () => {
-    patch({ rewardEvent: '', rewardEventCount: '', rewardEventDuration: '' }); dispatch(closeDropdown());
+    patch({ rewardEvent: "", rewardEventCount: "", rewardEventDuration: "" });
+    dispatch(closeDropdown());
   };
 
   // ── Reward with handlers ─────────────────────────────────────────────────────
@@ -128,55 +160,74 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
       patch({ rewardWith: opt.label });
       setDraftTier(form.selectedTier);
       dispatch(closeDropdown());
-      setView('tier-select'); return;
+      setView("tier-select");
+      return;
     }
     patch({
       rewardWith: opt.label,
-      rewardWithAmount: form.rewardWith === opt.label ? form.rewardWithAmount : '',
-      selectedTier: '',
+      rewardWithAmount:
+        form.rewardWith === opt.label ? form.rewardWithAmount : "",
+      selectedTier: "",
     });
-    clearErr(['rewardWith', 'rewardWithAmount']);
+    clearErr(["rewardWith", "rewardWithAmount"]);
     if (!opt.needsAmount) dispatch(closeDropdown());
   };
 
   const handleSaveRewardAmount = () => {
     if (!form.rewardWithAmount || Number(form.rewardWithAmount) <= 0) {
-      setErrors((e) => ({ ...e, rewardWithAmount: 'Enter the bonus amount to continue' })); return;
+      setErrors((e) => ({
+        ...e,
+        rewardWithAmount: "Enter the bonus amount to continue",
+      }));
+      return;
     }
-    clearErr(['rewardWithAmount']); dispatch(closeDropdown());
+    clearErr(["rewardWithAmount"]);
+    dispatch(closeDropdown());
   };
 
   const handleCancelRewardAmount = () => {
-    patch({ rewardWith: '', rewardWithAmount: '' }); dispatch(closeDropdown());
+    patch({ rewardWith: "", rewardWithAmount: "" });
+    dispatch(closeDropdown());
   };
 
   // ── Tier handlers ────────────────────────────────────────────────────────────
   const handleSaveTier = () => {
     if (!draftTier) {
-      setErrors((e) => ({ ...e, selectedTier: 'Please select a commission tier' })); return;
+      setErrors((e) => ({
+        ...e,
+        selectedTier: "Please select a commission tier",
+      }));
+      return;
     }
     patch({ selectedTier: draftTier });
-    clearErr(['rewardWith', 'selectedTier']);
-    setView('main');
+    clearErr(["rewardWith", "selectedTier"]);
+    setView("main");
   };
 
   const handleBackFromTier = () => {
-    if (!form.selectedTier) patch({ rewardWith: '', selectedTier: '' });
-    setView('main');
+    if (!form.selectedTier) patch({ rewardWith: "", selectedTier: "" });
+    setView("main");
   };
 
   // ── Validation ───────────────────────────────────────────────────────────────
   const validate = (): boolean => {
     const e: FormErrors = {};
-    const evtOpt = REWARD_EVENT_OPTIONS.find((o) => o.label === form.rewardEvent);
-    if (!form.rewardEvent) e.rewardEvent = 'Please select a reward event';
-    if (evtOpt?.needsAmount && !form.rewardEventAmount) e.rewardEventAmount = 'Enter the sales target amount to continue';
-    if (evtOpt?.needsPostsInput && !form.rewardEventCount) e.rewardEventCount = 'Enter the posts count to continue';
-    if (evtOpt?.needsPostsInput && !form.rewardEventDuration) e.rewardEventDuration = 'Select a duration';
-    if (!form.rewardWith) e.rewardWith = 'Please select a reward type';
-    if (selectedRewardOpt?.needsAmount && !form.rewardWithAmount) e.rewardWithAmount = 'Enter the bonus amount to continue';
-    if (selectedRewardOpt?.needsTier && !form.selectedTier) e.selectedTier = 'Please select a commission tier';
-    if (form.timeBound && !form.endDate) e.endDate = 'Please pick an end date';
+    const evtOpt = REWARD_EVENT_OPTIONS.find(
+      (o) => o.label === form.rewardEvent,
+    );
+    if (!form.rewardEvent) e.rewardEvent = "Please select a reward event";
+    if (evtOpt?.needsAmount && !form.rewardEventAmount)
+      e.rewardEventAmount = "Enter the sales target amount to continue";
+    if (evtOpt?.needsPostsInput && !form.rewardEventCount)
+      e.rewardEventCount = "Enter the posts count to continue";
+    if (evtOpt?.needsPostsInput && !form.rewardEventDuration)
+      e.rewardEventDuration = "Select a duration";
+    if (!form.rewardWith) e.rewardWith = "Please select a reward type";
+    if (selectedRewardOpt?.needsAmount && !form.rewardWithAmount)
+      e.rewardWithAmount = "Enter the bonus amount to continue";
+    if (selectedRewardOpt?.needsTier && !form.selectedTier)
+      e.selectedTier = "Please select a commission tier";
+    if (form.timeBound && !form.endDate) e.endDate = "Please pick an end date";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -184,13 +235,19 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
   // ── Submit + close ───────────────────────────────────────────────────────────
   const handleSubmit = () => {
     if (!validate()) return;
-    console.log('Creating reward:', { event: eventDisplayValue, reward: rewardDisplayValue });
+    console.log("Creating reward:", {
+      event: eventDisplayValue,
+      reward: rewardDisplayValue,
+    });
     handleClose();
   };
 
   const handleClose = () => {
     dispatch(closeModal());
-    setForm(EMPTY_FORM); setErrors({}); setView('main'); setDraftTier('');
+    setForm(EMPTY_FORM);
+    setErrors({});
+    setView("main");
+    setDraftTier("");
   };
 
   // ── Render ───────────────────────────────────────────────────────────────────
@@ -198,23 +255,29 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title={view === 'tier-select' ? 'Select a commission tier' : 'Create your reward system'}
+      title={
+        view === "tier-select"
+          ? "Select a commission tier"
+          : "Create your reward system"
+      }
     >
       {/* ── Tier select panel ── */}
-      {view === 'tier-select' && (
+      {view === "tier-select" && (
         <TierSelectPanel
           selectedTier={draftTier}
           error={errors.selectedTier}
-          onTierChange={(t) => { setDraftTier(t); clearErr(['selectedTier']); }}
+          onTierChange={(t) => {
+            setDraftTier(t);
+            clearErr(["selectedTier"]);
+          }}
           onBack={handleBackFromTier}
           onSave={handleSaveTier}
         />
       )}
 
       {/* ── Main panel ── */}
-      {view === 'main' && (
+      {view === "main" && (
         <div className="space-y-5">
-
           {/* Reward event dropdown */}
           <SmartDropdown
             label="Reward event"
@@ -228,15 +291,24 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
             postsCount={form.rewardEventCount}
             postsDuration={form.rewardEventDuration}
             postsCountError={errors.rewardEventCount}
-            isOpen={activeDropdown === 'event'}
+            isOpen={activeDropdown === "event"}
             error={errors.rewardEvent}
-            onToggle={() => dispatch(toggleDropdown('event'))}
+            onToggle={() => dispatch(toggleDropdown("event"))}
             onSelect={handleSelectEvent}
-            onAmountChange={(v) => { patch({ rewardEventAmount: v }); clearErr(['rewardEventAmount']); }}
+            onAmountChange={(v) => {
+              patch({ rewardEventAmount: v });
+              clearErr(["rewardEventAmount"]);
+            }}
             onAmountSave={handleSaveEventAmount}
             onAmountCancel={handleCancelEventAmount}
-            onPostsCountChange={(v) => { patch({ rewardEventCount: v }); clearErr(['rewardEventCount']); }}
-            onPostsDurationChange={(v: Duration) => { patch({ rewardEventDuration: v }); clearErr(['rewardEventDuration']); }}
+            onPostsCountChange={(v) => {
+              patch({ rewardEventCount: v });
+              clearErr(["rewardEventCount"]);
+            }}
+            onPostsDurationChange={(v: Duration) => {
+              patch({ rewardEventDuration: v });
+              clearErr(["rewardEventDuration"]);
+            }}
             onPostsSave={handleSavePostsInput}
             onPostsCancel={handleCancelPostsInput}
           />
@@ -257,24 +329,30 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
               amountError={errors.rewardWithAmount}
               postsCount=""
               postsDuration=""
-              isOpen={activeDropdown === 'reward'}
+              isOpen={activeDropdown === "reward"}
               error={errors.rewardWith}
               hoveredRow={rewardRowHovered}
-              onToggle={() => dispatch(toggleDropdown('reward'))}
+              onToggle={() => dispatch(toggleDropdown("reward"))}
               onSelect={handleSelectReward}
-              onAmountChange={(v) => { patch({ rewardWithAmount: v }); clearErr(['rewardWithAmount']); }}
+              onAmountChange={(v) => {
+                patch({ rewardWithAmount: v });
+                clearErr(["rewardWithAmount"]);
+              }}
               onAmountSave={handleSaveRewardAmount}
               onAmountCancel={handleCancelRewardAmount}
               onPostsCountChange={() => {}}
               onPostsDurationChange={() => {}}
               onPostsSave={() => {}}
               onPostsCancel={() => {}}
-              onEditTier={() => { setDraftTier(form.selectedTier); setView('tier-select'); }}
+              onEditTier={() => {
+                setDraftTier(form.selectedTier);
+                setView("tier-select");
+              }}
             />
           </div>
 
           {/* Is Onboarded → hint only, others → toggle */}
-          {form.rewardEvent === 'Is Onboarded' ? (
+          {form.rewardEvent === "Is Onboarded" ? (
             <p className="text-xs text-gray-400 -mt-1">
               Choose an end date to stop this reward automatically.
             </p>
@@ -283,7 +361,10 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
               label="Make the reward time bound"
               hint="Choose an end date to stop this reward automatically."
               checked={form.timeBound}
-              onChange={(val) => { patch({ timeBound: val, endDate: '' }); dispatch(closeDropdown()); }}
+              onChange={(val) => {
+                patch({ timeBound: val, endDate: "" });
+                dispatch(closeDropdown());
+              }}
             />
           )}
 
@@ -292,7 +373,10 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
             <EndDatePicker
               value={form.endDate}
               error={errors.endDate}
-              onChange={(v) => { patch({ endDate: v }); clearErr(['endDate']); }}
+              onChange={(v) => {
+                patch({ endDate: v });
+                clearErr(["endDate"]);
+              }}
               onError={(msg) => setErrors((e) => ({ ...e, endDate: msg }))}
             />
           )}
@@ -311,10 +395,10 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
               onClick={handleSubmit}
               disabled={isSubmitDisabled}
               className={cn(
-                'flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all',
+                "flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all",
                 isSubmitDisabled
-                  ? 'bg-pink-100 text-gray-300 cursor-not-allowed'
-                  : 'bg-pink-500 text-white hover:-translate-y-0.5'
+                  ? "bg-pink-100 text-gray-300 cursor-not-allowed"
+                  : "bg-pink-500 text-white hover:-translate-y-0.5",
               )}
             >
               Create Reward

@@ -11,10 +11,6 @@ interface OptionRowProps {
   onEditClick?: () => void;
 }
 
-/**
- * A single row inside a SmartDropdown panel.
- * Handles selected highlight, disabled state, checkmark, and pencil edit icon.
- */
 export default function OptionRow({
   label, isSelected, isDisabled, showEditIcon, onClick, onEditClick,
 }: OptionRowProps) {
