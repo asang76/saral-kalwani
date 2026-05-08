@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 
 import layers from "../public/assets/layers.png";
 import bgGamification from "../public/assets/bg-gamifiction.png";
+import RewardsList from "@/components/modals/RewardList";
 
 export default function GamificationPage() {
   const dispatch = useAppDispatch();
@@ -138,6 +139,7 @@ export default function GamificationPage() {
           ))}
         </div>
       </div>
+        <RewardsList />
       <CreateRewardModal isOpen={modalOpen === "enable-gamification"} />
     </DashboardLayout>
   );

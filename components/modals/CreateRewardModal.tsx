@@ -31,6 +31,7 @@ import {
   getEventDisplayValue,
   getRewardDisplayValue,
 } from "./createRewardModal/utils";
+import { addReward } from '../../store/slices/RewardsSlice';
 
 interface CreateRewardModalProps {
   isOpen: boolean;
@@ -235,10 +236,12 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
   // ── Submit + close ───────────────────────────────────────────────────────────
   const handleSubmit = () => {
     if (!validate()) return;
-    console.log("Creating reward:", {
+    dispatch(addReward({
       event: eventDisplayValue,
-      reward: rewardDisplayValue,
-    });
+      rewardWith: rewardDisplayValue,
+      timeBound: form.timeBound,
+      endDate: form.endDate,
+    }));
     handleClose();
   };
 
