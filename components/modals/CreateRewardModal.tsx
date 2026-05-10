@@ -69,21 +69,15 @@ export default function CreateRewardModal({ isOpen }: CreateRewardModalProps) {
   const evtOpt = REWARD_EVENT_OPTIONS.find((o) => o.label === form.rewardEvent);
   const isSubmitDisabled = (() => {
     if (!form.rewardEvent) return true;
-
     if (evtOpt?.needsAmount && !form.rewardEventAmount) return true;
-
     if (
       evtOpt?.needsPostsInput &&
       (!form.rewardEventCount || !form.rewardEventDuration)
     )
       return true;
-
-    if (!form.rewardWith) return true;
-
+    if (!form.rewardWith) return true
     if (selectedRewardOpt?.needsAmount && !form.rewardWithAmount) return true;
-
     if (selectedRewardOpt?.needsTier && !form.selectedTier) return true;
-
     if (form.timeBound && !form.endDate) return true;
     return false;
   })();

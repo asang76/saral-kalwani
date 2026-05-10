@@ -47,15 +47,6 @@ interface SmartDropdownProps {
   onSelect: (opt: DropdownOption) => void;
 }
 
-/**
- * A dropdown that renders one of three inline sub-inputs depending on
- * which option is selected:
- *   needsAmount     → AmountInput   ($ value)
- *   needsPostsInput → PostsInput    (count + duration)
- *   needsTier       → navigates to TierSelectPanel via parent
- *
- * Open/close state is managed externally (Redux) via isOpen + onToggle.
- */
 export default function SmartDropdown({
   label, placeholder, options, selectedLabel, displayValue, form,
   amount, amountError, onAmountChange, onAmountSave, onAmountCancel,
@@ -144,7 +135,7 @@ export default function SmartDropdown({
         )}
       </div>
 
-      {/* Field-level error (only when dropdown is closed) */}
+      
       {error && !isOpen && (
         <p className="text-xs text-red-500 mt-0.5">{error}</p>
       )}
